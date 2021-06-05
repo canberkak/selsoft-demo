@@ -10,3 +10,9 @@ spring:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
     username: 1
+
+security:
+  jwt:
+    token:
+      secret-key: secret-key
+      expire-length: 300000

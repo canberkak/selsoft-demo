@@ -30,7 +30,7 @@ public class CafeController {
         return new ResponseEntity<>(cafeResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/get-all")
+    @GetMapping()
     public ResponseEntity<List<CafeResponse>> getAll() {
         var cafeResponseList = cafeMapper.cafeListToCafeResponseList(cafeQueryService.getAll());
         return new ResponseEntity<>(cafeResponseList, HttpStatus.OK);
