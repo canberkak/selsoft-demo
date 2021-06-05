@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -30,11 +31,11 @@ public abstract class BaseEntity implements Serializable {
 
     @CreatedDate
     @Column(name = "created_date", nullable = false)
-    protected LocalDate createdDate;
+    protected Date createdDate = new Date();
 
     @LastModifiedDate
     @Column(name = "updated_date")
     @JsonIgnore
-    protected LocalDate updatedDate;
+    protected Date updatedDate = new Date();
 
 }

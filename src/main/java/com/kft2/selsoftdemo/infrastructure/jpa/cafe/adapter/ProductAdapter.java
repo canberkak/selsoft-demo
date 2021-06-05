@@ -15,6 +15,6 @@ public class ProductAdapter implements ProductRepository {
 
     @Override
     public Product findById(Long id) {
-        return productJpaRepository.findById(id).map(ProductEntity::toModel).orElseThrow(RuntimeException::new); //todo custom excp
+        return productJpaRepository.findById(id).map(ProductEntity::toModel).orElseThrow(RuntimeException::new); //todo custom exception
     }
 }

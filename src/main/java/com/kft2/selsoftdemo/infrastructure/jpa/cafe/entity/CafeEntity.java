@@ -27,7 +27,6 @@ public class CafeEntity extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cafe", cascade = CascadeType.ALL)
     private List<ProductEntity> products;
 
-
     public Cafe toModel() {
         return Cafe.builder()
                 .id(super.getId())
