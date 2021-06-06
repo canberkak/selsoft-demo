@@ -25,4 +25,18 @@ public class BasketAdapter implements BasketRepository {
         basketEntity.setAccountId(accountId);
         return basketJpaRepository.save(basketEntity);
     }
+
+
+    @Override
+    public Basket findById(Long id) {
+        System.err.println(basketJpaRepository.findById(id));
+        return basketJpaRepository.findById(id).orElseThrow(RuntimeException::new).toModel();
+    }
+
+    @Override
+    public void save(Basket basket) {
+        var basketEntity = basketJpaRepository.findById(basket.getId()).orElseThrow(RuntimeException::new);
+        basketEntity.setTotalPrice(basket.getTotalPrice());
+        basketJpaRepository.save(basketEntity);
+    }
 }

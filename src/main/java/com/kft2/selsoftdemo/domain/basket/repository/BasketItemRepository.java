@@ -10,5 +10,9 @@ public interface BasketItemRepository {
 
     List<BasketItem> findByBasketId(Long basketId);
 
+    BasketItem findById(Long basketItemId);
+
     void save(BasketItem basketItem);
+
+    void remove(BasketItem basketItem);
 }

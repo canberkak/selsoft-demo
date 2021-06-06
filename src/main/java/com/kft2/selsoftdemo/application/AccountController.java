@@ -6,8 +6,6 @@ import com.kft2.selsoftdemo.application.request.SignUpRequest;
 import com.kft2.selsoftdemo.application.response.AccountResponse;
 import com.kft2.selsoftdemo.domain.account.service.AccountCommandService;
 import com.kft2.selsoftdemo.domain.account.service.AccountQueryService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +38,6 @@ public class AccountController {
 
     @GetMapping(value = "/me")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-    @ApiOperation(value = "me", authorizations = {@Authorization(value = "apiKey")})
     public ResponseEntity<AccountResponse> getMe(HttpServletRequest httpServletRequest) {
         var account = AccountMapper.accountToAccountResponse(accountQueryService.getIdentityFromToken(httpServletRequest));
         return new ResponseEntity<>(account, HttpStatus.OK);

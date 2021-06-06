@@ -1,5 +1,6 @@
 package com.kft2.selsoftdemo.application;
 
+import com.kft2.selsoftdemo.application.mapper.BasketMapper;
 import com.kft2.selsoftdemo.application.request.AddItemToBasketRequest;
 import com.kft2.selsoftdemo.application.response.BasketResponse;
 import com.kft2.selsoftdemo.domain.basket.service.BasketCommandService;
@@ -23,9 +24,9 @@ public class BasketController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-    public ResponseEntity<BasketResponse> getBasket(HttpServletRequest httpServletRequest) {
-        //todo
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<BasketResponse> getActiveBasket(HttpServletRequest httpServletRequest) {
+        var basketResponse = BasketMapper.basketToBasketResponse(basketQueryService.getBasketByToken(httpServletRequest));
+        return new ResponseEntity<>(basketResponse,HttpStatus.OK);
     }
 
     @PostMapping("/add-item")
@@ -38,8 +39,9 @@ public class BasketController {
 
     @DeleteMapping("/remove-item/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-    public ResponseEntity<?> removeItemFromBasket(@PathVariable("id") Long id) {
-        //todo
+    public ResponseEntity<?> removeItemFromBasket(HttpServletRequest httpServletRequest,
+                                                  @PathVariable("id") Long id) {
+        basketCommandService.remoteItemFromBasket(httpServletRequest, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
