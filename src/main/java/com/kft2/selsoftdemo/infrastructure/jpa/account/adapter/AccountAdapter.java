@@ -6,7 +6,6 @@ import com.kft2.selsoftdemo.infrastructure.jpa.account.entity.AccountEntity;
 import com.kft2.selsoftdemo.infrastructure.jpa.account.repository.AccountJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -21,7 +20,6 @@ public class AccountAdapter implements AccountRepository {
     }
 
 
-    @Transactional
     @Override
     public void save(Account account) {
 

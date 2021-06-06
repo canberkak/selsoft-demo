@@ -15,4 +15,4 @@ security:
   jwt:
     token:
       secret-key: secret-key
-      expire-length: 300000
+      expire-length: 3000000

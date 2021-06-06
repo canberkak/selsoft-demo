@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
@@ -14,5 +15,7 @@ public class Basket {
     private Long accountId;
     private BigDecimal totalPrice;
     private BasketStatus basketStatus;
+    private List<BasketItem> basketItemList;
+
 
 }
