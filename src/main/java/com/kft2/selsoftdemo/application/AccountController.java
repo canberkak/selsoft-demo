@@ -1,8 +1,11 @@
 package com.kft2.selsoftdemo.application;
 
+import com.kft2.selsoftdemo.application.mapper.AccountMapper;
 import com.kft2.selsoftdemo.application.request.SignInRequest;
 import com.kft2.selsoftdemo.application.request.SignUpRequest;
+import com.kft2.selsoftdemo.application.response.AccountResponse;
 import com.kft2.selsoftdemo.domain.account.service.AccountCommandService;
+import com.kft2.selsoftdemo.domain.account.service.AccountQueryService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
@@ -20,28 +23,29 @@ import javax.validation.Valid;
 public class AccountController {
 
     private final AccountCommandService accountCommandService;
+    private final AccountQueryService accountQueryService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<?> signup(@RequestBody @Valid SignUpRequest signUpRequest) {
+    public ResponseEntity<?> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         accountCommandService.singUp(signUpRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<String> login(@RequestBody @Valid SignInRequest signInRequest) {
-        return new ResponseEntity<>(accountCommandService.signIn(signInRequest), HttpStatus.OK);
+    public ResponseEntity<String> signIn(@RequestBody @Valid SignInRequest signInRequest) {
+        var token = accountCommandService.signIn(signInRequest);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
 
     @GetMapping(value = "/me")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @ApiOperation(value = "me", authorizations = {@Authorization(value = "apiKey")})
-    public ResponseEntity<?> getMe(HttpServletRequest req) {
-        return null;
+    public ResponseEntity<AccountResponse> getMe(HttpServletRequest httpServletRequest) {
+        var account = AccountMapper.accountToAccountResponse(accountQueryService.getIdentityFromToken(httpServletRequest));
+        return new ResponseEntity<>(account, HttpStatus.OK);
+
     }
 
-    @GetMapping("/refresh")
-    public ResponseEntity<?> refresh(HttpServletRequest req) {
-        return null;
-    }
+
 }

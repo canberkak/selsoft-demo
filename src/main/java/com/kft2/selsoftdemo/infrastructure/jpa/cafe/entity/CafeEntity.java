@@ -25,7 +25,7 @@ public class CafeEntity extends BaseEntity {
     private String phoneNumber;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<ProductEntity> products;
+    private List<ProductEntity> productEntityList;
 
     public Cafe toModel() {
         return Cafe.builder()
@@ -33,7 +33,7 @@ public class CafeEntity extends BaseEntity {
                 .name(name)
                 .address(address)
                 .phoneNumber(phoneNumber)
-                .productList(products.stream().map(ProductEntity::toModel).collect(Collectors.toList()))
+                .productList(productEntityList.stream().map(ProductEntity::toModel).collect(Collectors.toList()))
                 .build();
     }
 

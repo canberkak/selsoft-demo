@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -25,12 +27,16 @@ public class BasketEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private BasketStatus basketStatus = BasketStatus.ACTIVE;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "basket", cascade = CascadeType.ALL)
+    private List<BasketItemEntity> basketItemEntityList;
+
     public Basket toModel() {
         return Basket.builder()
                 .id(super.getId())
                 .accountId(accountId)
                 .totalPrice(totalPrice)
                 .basketStatus(basketStatus)
+                .basketItemList(basketItemEntityList.stream().map(BasketItemEntity::toModel).collect(Collectors.toList()))
                 .build();
     }
 

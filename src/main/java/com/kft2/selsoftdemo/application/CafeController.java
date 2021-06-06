@@ -22,17 +22,16 @@ public class CafeController {
 
     private final CafeQueryService cafeQueryService;
     private final CafeCommandService cafeCommandService;
-    private final CafeMapper cafeMapper;
 
     @GetMapping("/{id}")
     public ResponseEntity<CafeResponse> getCafeById(@PathVariable("id") Long id) {
-        var cafeResponse = cafeMapper.cafeToCafeResponse(cafeQueryService.getCafeById(id));
+        var cafeResponse = CafeMapper.cafeToCafeResponse(cafeQueryService.getCafeById(id));
         return new ResponseEntity<>(cafeResponse, HttpStatus.OK);
     }
 
     @GetMapping()
     public ResponseEntity<List<CafeResponse>> getAll() {
-        var cafeResponseList = cafeMapper.cafeListToCafeResponseList(cafeQueryService.getAll());
+        var cafeResponseList = CafeMapper.cafeListToCafeResponseList(cafeQueryService.getAll());
         return new ResponseEntity<>(cafeResponseList, HttpStatus.OK);
     }
 

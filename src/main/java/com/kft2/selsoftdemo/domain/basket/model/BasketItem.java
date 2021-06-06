@@ -15,4 +15,9 @@ public class BasketItem {
     private Integer quantity;
     private BigDecimal totalPrice;
 
+    public void updateQuantityAndPrice(Integer quantity, BigDecimal price){
+        this.quantity = quantity;
+        this.totalPrice = price.multiply(BigDecimal.valueOf(quantity));
+    }
+
 }
