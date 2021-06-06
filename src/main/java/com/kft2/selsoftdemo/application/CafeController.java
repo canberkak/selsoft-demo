@@ -21,7 +21,6 @@ import java.util.List;
 public class CafeController {
 
     private final CafeQueryService cafeQueryService;
-    private final CafeCommandService cafeCommandService;
 
     @GetMapping("/{id}")
     public ResponseEntity<CafeResponse> getCafeById(@PathVariable("id") Long id) {

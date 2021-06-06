@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class DefaultBasketCommandService implements BasketCommandService {
 
+    private final BasketQueryService basketQueryService;
     private final BasketRepository basketRepository;
     private final BasketItemRepository basketItemRepository;
     private final ProductQueryService productQueryService;
@@ -28,28 +29,29 @@ public class DefaultBasketCommandService implements BasketCommandService {
     @Override
     public void addItemToBasket(HttpServletRequest httpServletRequest, AddItemToBasketRequest addItemToBasketRequest) {
 
-        var basket = getBasketByToken(httpServletRequest);
+        var basket = basketQueryService.getBasketByToken(httpServletRequest);
         var product = productQueryService.findById(addItemToBasketRequest.getProductId());
         var basketItem = basketItemRepository.findByBasketIdAndProductId(basket.getId(), product.getId());
 
         basketItem.updateQuantityAndPrice(addItemToBasketRequest.getQuantity(), product.getPrice());
         basketItemRepository.save(basketItem);
-        //updateTotalBasketPrice(basket);
+        updateTotalBasketPrice(basket.getId());
     }
 
-    private Basket getBasketByToken(HttpServletRequest httpServletRequest) {
-        var account = accountQueryService.getIdentityFromToken(httpServletRequest);
-        return basketRepository.findByAccountId(account.getId());
-    }
+    @Override
+    public void remoteItemFromBasket(HttpServletRequest httpServletRequest, Long id) {
 
-    /*
-    private void updateTotalBasketPrice(Basket basket) {
-        var basketItemList = basketItemRepository.findByBasketId(basket.getId());
-        basket.setTotalPrice(basketItemList);
-        basketRepository.save(basket);
+        var basketItem = basketItemRepository.findById(id);
+        basketItemRepository.remove(basketItem);
+        var basket = basketQueryService.getBasketByToken(httpServletRequest);
+        updateTotalBasketPrice(basket.getId());
 
     }
-     */
+
+
+    private void updateTotalBasketPrice(Long basketId) {
+
+    }
 
     @Override
     public void orderBasket(HttpServletRequest httpServletRequest) {
@@ -57,5 +59,6 @@ public class DefaultBasketCommandService implements BasketCommandService {
         var basket = basketRepository.findByAccountId(account.getId());
         selsoftPaymentService.order(account.getEmail(), basket.getTotalPrice());
     }
+
 
 }

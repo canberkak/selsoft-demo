@@ -37,19 +37,25 @@ public class BasketItemAdapter implements BasketItemRepository {
 
     @Override
     public void save(BasketItem basketItem) {
-        /**
-         *  todo
-         *  Id setleyip tekrar entity için repo isteği atmayı engelleyebiliriz ?
-         *  Null check istiyor ama gereksiz. (BasketItem yoksa oluşturuyor method öncesi)
-         */
-        var basketItemEntity = basketItemJpaRepository.findById(basketItem.getId()).get();
+        var basketItemEntity = basketItemJpaRepository.findById(basketItem.getId()).orElseThrow(RuntimeException::new);
         basketItemEntity.setQuantity(basketItem.getQuantity());
         basketItemEntity.setTotalPrice(basketItem.getTotalPrice());
         basketItemJpaRepository.save(basketItemEntity);
     }
 
     @Override
+    public void remove(BasketItem basketItem) {
+        var basketItemEntity = basketItemJpaRepository.findById(basketItem.getId()).orElseThrow(RuntimeException::new);
+        basketItemJpaRepository.delete(basketItemEntity);
+    }
+
+    @Override
     public List<BasketItem> findByBasketId(Long basketId) {
         return basketItemJpaRepository.findByBasketId(basketId).stream().map(BasketItemEntity::toModel).collect(Collectors.toList());
+    }
+
+    @Override
+    public BasketItem findById(Long basketItemId) {
+        return basketItemJpaRepository.findById(basketItemId).orElseThrow(RuntimeException::new).toModel();
     }
 }

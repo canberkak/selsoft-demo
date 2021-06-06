@@ -10,4 +10,5 @@ public interface BasketCommandService {
 
     void orderBasket(HttpServletRequest httpServletRequest);
 
+    void remoteItemFromBasket(HttpServletRequest httpServletRequest, Long id);
 }
