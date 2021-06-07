@@ -79,7 +79,7 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            throw new RuntimeException(); //todo custom exception
+            throw new RuntimeException();
         }
     }
 

@@ -23,7 +23,7 @@ public class BasketEntity extends BaseEntity {
     private Long accountId;
 
     @Column
-    private BigDecimal totalPrice = BigDecimal.ZERO;
+    private BigDecimal totalPrice;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -34,12 +34,15 @@ public class BasketEntity extends BaseEntity {
 
 
     public Basket toModel() {
+        List<BasketItem> basketItemList = this.basketItemEntityList != null
+                ? basketItemEntityList.stream().map(BasketItemEntity::toModel).collect(Collectors.toList())
+                : new ArrayList<>();
         return Basket.builder()
                 .id(super.getId())
                 .accountId(accountId)
                 .totalPrice(totalPrice)
                 .basketStatus(basketStatus)
-                .basketItemList(basketItemEntityList.stream().map(BasketItemEntity::toModel).collect(Collectors.toList()))
+                .basketItemList(basketItemList)
                 .build();
     }
 

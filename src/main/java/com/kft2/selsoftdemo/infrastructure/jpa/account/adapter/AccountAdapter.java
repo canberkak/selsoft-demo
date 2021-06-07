@@ -1,7 +1,6 @@
 package com.kft2.selsoftdemo.infrastructure.jpa.account.adapter;
 
 import com.kft2.selsoftdemo.domain.account.model.Account;
-import com.kft2.selsoftdemo.domain.account.repository.AccountRepository;
 import com.kft2.selsoftdemo.infrastructure.jpa.account.entity.AccountEntity;
 import com.kft2.selsoftdemo.infrastructure.jpa.account.repository.AccountJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,13 +9,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AccountAdapter implements AccountRepository {
+public class AccountAdapter implements com.kft2.selsoftdemo.domain.account.repository.AccountAdapter {
 
     private final AccountJpaRepository accountJpaRepository;
 
     @Override
     public Account findByEmail(String email) {
-        return accountJpaRepository.findByEmail(email).map(AccountEntity::toModel).orElseThrow(RuntimeException::new); //todo custom exception
+        return accountJpaRepository.findByEmail(email).map(AccountEntity::toModel).orElseThrow(RuntimeException::new);
     }
 
 

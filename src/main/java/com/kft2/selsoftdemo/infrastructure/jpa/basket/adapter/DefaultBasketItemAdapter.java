@@ -1,7 +1,7 @@
 package com.kft2.selsoftdemo.infrastructure.jpa.basket.adapter;
 
 import com.kft2.selsoftdemo.domain.basket.model.BasketItem;
-import com.kft2.selsoftdemo.domain.basket.repository.BasketItemRepository;
+import com.kft2.selsoftdemo.domain.basket.repository.BasketItemAdapter;
 import com.kft2.selsoftdemo.infrastructure.jpa.basket.entity.BasketItemEntity;
 import com.kft2.selsoftdemo.infrastructure.jpa.basket.repository.BasketItemJpaRepository;
 import com.kft2.selsoftdemo.infrastructure.jpa.basket.repository.BasketJpaRepository;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class BasketItemAdapter implements BasketItemRepository {
+public class DefaultBasketItemAdapter implements BasketItemAdapter {
 
     private final BasketItemJpaRepository basketItemJpaRepository;
     private final BasketJpaRepository basketJpaRepository;
@@ -30,7 +30,8 @@ public class BasketItemAdapter implements BasketItemRepository {
 
     public BasketItemEntity createBasketItem(Long basketId, Long productId) {
         BasketItemEntity basketItemEntity = new BasketItemEntity();
-        basketItemEntity.setBasket(basketJpaRepository.findById(basketId).get());
+        var basketEntity = basketJpaRepository.findById(basketId).orElseThrow(RuntimeException::new);
+        basketItemEntity.setBasket(basketEntity);
         basketItemEntity.setProductId(productId);
         return basketItemJpaRepository.save(basketItemEntity);
     }
