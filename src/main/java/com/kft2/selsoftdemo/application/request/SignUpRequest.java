@@ -28,6 +28,6 @@ public class SignUpRequest {
     private String phone;
 
     @NotNull
-    private List<Role> role; //todo separate endpoint for admin sing up , remove ROLE from regular endpoint
+    private List<Role> role;
 
 }

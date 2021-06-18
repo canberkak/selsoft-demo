@@ -1,7 +1,7 @@
 package com.kft2.selsoftdemo.domain.cafe.service;
 
 import com.kft2.selsoftdemo.domain.cafe.model.Product;
-import com.kft2.selsoftdemo.domain.cafe.repository.ProductRepository;
+import com.kft2.selsoftdemo.domain.cafe.port.ProductPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DefaultProductQueryService implements ProductQueryService {
 
-    private final ProductRepository productRepository;
+    private final ProductPort productPort;
 
     @Override
     public Product findById(Long id) {
-        return productRepository.findById(id);
+        return productPort.findById(id);
     }
 }

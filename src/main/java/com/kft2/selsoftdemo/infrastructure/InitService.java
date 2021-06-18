@@ -1,4 +1,4 @@
-package com.kft2.selsoftdemo.application;
+package com.kft2.selsoftdemo.infrastructure;
 
 import com.kft2.selsoftdemo.application.request.SignUpRequest;
 import com.kft2.selsoftdemo.domain.account.model.type.Role;
@@ -15,10 +15,6 @@ public class InitService {
 
     private final AccountCommandService accountCommandService;
 
-    /**
-     * If we want initial account entity data, we have to use InitService instead of data.sql file in src/resources.
-     * This is required because password has to be encrypted by singUp method before inserted into database.
-     */
 
     @PostConstruct
     public void init() {

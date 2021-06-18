@@ -41,7 +41,7 @@ public class BasketController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<?> removeItemFromBasket(HttpServletRequest httpServletRequest,
                                                   @PathVariable("id") Long id) {
-        basketCommandService.remoteItemFromBasket(httpServletRequest, id);
+        basketCommandService.removeItemFromBasket(httpServletRequest, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

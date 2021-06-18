@@ -4,7 +4,7 @@ import com.kft2.selsoftdemo.application.request.SignInRequest;
 import com.kft2.selsoftdemo.application.request.SignUpRequest;
 import com.kft2.selsoftdemo.application.security.JwtTokenProvider;
 import com.kft2.selsoftdemo.domain.account.model.Account;
-import com.kft2.selsoftdemo.domain.account.repository.AccountRepository;
+import com.kft2.selsoftdemo.domain.account.port.AccountPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DefaultAccountCommandService implements AccountCommandService {
 
-    private final AccountRepository accountRepository;
+    private final AccountPort accountPort;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
@@ -26,7 +26,7 @@ public class DefaultAccountCommandService implements AccountCommandService {
     @Override
     public void singUp(SignUpRequest signUpRequest) {
 
-        final Account account = Account.builder()
+        final var account = Account.builder()
                 .email(signUpRequest.getEmail())
                 .password(passwordEncoder.encode(signUpRequest.getPassword()))
                 .roles(signUpRequest.getRole())
@@ -36,7 +36,7 @@ public class DefaultAccountCommandService implements AccountCommandService {
                 .phone(signUpRequest.getPhone())
                 .build();
 
-        accountRepository.save(account);
+        accountPort.save(account);
 
     }
 
@@ -45,7 +45,7 @@ public class DefaultAccountCommandService implements AccountCommandService {
     public String signIn(SignInRequest signInRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
-            return jwtTokenProvider.createToken(signInRequest.getEmail(), accountRepository.findByEmail(signInRequest.getEmail()).getRoles());
+            return jwtTokenProvider.createToken(signInRequest.getEmail(), accountPort.findByEmail(signInRequest.getEmail()).getRoles());
         } catch (Exception e) {
             throw new RuntimeException();
         }

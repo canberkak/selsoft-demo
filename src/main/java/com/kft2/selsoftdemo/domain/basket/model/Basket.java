@@ -18,5 +18,20 @@ public class Basket {
     private BasketStatus basketStatus;
     private List<BasketItem> basketItemList;
 
+    public void complete() {
+        this.basketStatus = BasketStatus.COMPLETED;
+    }
+
+    public void addBasketItem(BasketItem basketItem) {
+        basketItemList.add(basketItem);
+    }
+
+    public void removeBasketItem(BasketItem basketItem) {
+        basketItemList.remove(basketItem);
+    }
+
+    public void updateTotalPrice() {
+        this.totalPrice = basketItemList.stream().map(BasketItem::getTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 
 }

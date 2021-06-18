@@ -1,8 +1,8 @@
-package com.kft2.selsoftdemo.domain.basket.repository;
+package com.kft2.selsoftdemo.domain.basket.port;
 
 import com.kft2.selsoftdemo.domain.basket.model.Basket;
 
-public interface BasketRepository {
+public interface BasketPort {
 
     Basket findByAccountId(Long accountId);
 
