@@ -2,7 +2,7 @@ package com.kft2.selsoftdemo.domain.basket.service;
 
 import com.kft2.selsoftdemo.domain.account.service.AccountQueryService;
 import com.kft2.selsoftdemo.domain.basket.model.Basket;
-import com.kft2.selsoftdemo.domain.basket.repository.BasketAdapter;
+import com.kft2.selsoftdemo.domain.basket.port.BasketPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 public class DefaultBasketQueryService implements BasketQueryService {
 
     private final AccountQueryService accountQueryService;
-    private final BasketAdapter basketAdapter;
+    private final BasketPort basketPort;
 
 
     @Override
     public Basket getBasketByToken(HttpServletRequest httpServletRequest) {
         var account = accountQueryService.getIdentityFromToken(httpServletRequest);
-        return basketAdapter.findByAccountId(account.getId());
+        return basketPort.findByAccountId(account.getId());
     }
 }

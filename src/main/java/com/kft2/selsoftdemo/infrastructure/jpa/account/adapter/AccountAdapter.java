@@ -1,6 +1,7 @@
 package com.kft2.selsoftdemo.infrastructure.jpa.account.adapter;
 
 import com.kft2.selsoftdemo.domain.account.model.Account;
+import com.kft2.selsoftdemo.domain.account.port.AccountPort;
 import com.kft2.selsoftdemo.infrastructure.jpa.account.entity.AccountEntity;
 import com.kft2.selsoftdemo.infrastructure.jpa.account.repository.AccountJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AccountAdapter implements com.kft2.selsoftdemo.domain.account.repository.AccountAdapter {
+public class AccountAdapter implements AccountPort {
 
     private final AccountJpaRepository accountJpaRepository;
 

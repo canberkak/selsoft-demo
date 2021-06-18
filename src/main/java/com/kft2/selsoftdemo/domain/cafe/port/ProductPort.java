@@ -1,8 +1,8 @@
-package com.kft2.selsoftdemo.domain.cafe.repository;
+package com.kft2.selsoftdemo.domain.cafe.port;
 
 import com.kft2.selsoftdemo.domain.cafe.model.Product;
 
-public interface ProductAdapter {
+public interface ProductPort {
 
     Product findById(Long id);
 

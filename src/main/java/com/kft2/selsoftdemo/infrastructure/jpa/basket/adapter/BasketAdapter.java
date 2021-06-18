@@ -2,7 +2,7 @@ package com.kft2.selsoftdemo.infrastructure.jpa.basket.adapter;
 
 import com.kft2.selsoftdemo.domain.basket.model.Basket;
 import com.kft2.selsoftdemo.domain.basket.model.type.BasketStatus;
-import com.kft2.selsoftdemo.domain.basket.repository.BasketAdapter;
+import com.kft2.selsoftdemo.domain.basket.port.BasketPort;
 import com.kft2.selsoftdemo.infrastructure.jpa.basket.entity.BasketEntity;
 import com.kft2.selsoftdemo.infrastructure.jpa.basket.repository.BasketJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class DefaultBasketAdapter implements BasketAdapter {
+public class BasketAdapter implements BasketPort {
 
     private final BasketJpaRepository basketJpaRepository;
 
@@ -21,7 +21,7 @@ public class DefaultBasketAdapter implements BasketAdapter {
     }
 
     private BasketEntity createBasket(Long accountId) {
-        BasketEntity basketEntity = new BasketEntity();
+        var basketEntity = new BasketEntity();
         basketEntity.setAccountId(accountId);
         return basketJpaRepository.save(basketEntity);
     }

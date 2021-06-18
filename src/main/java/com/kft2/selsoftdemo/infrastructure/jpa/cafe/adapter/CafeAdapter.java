@@ -1,5 +1,6 @@
 package com.kft2.selsoftdemo.infrastructure.jpa.cafe.adapter;
 
+import com.kft2.selsoftdemo.domain.cafe.port.CafePort;
 import com.kft2.selsoftdemo.domain.cafe.model.Cafe;
 import com.kft2.selsoftdemo.infrastructure.jpa.cafe.entity.CafeEntity;
 import com.kft2.selsoftdemo.infrastructure.jpa.cafe.repository.CafeJpaRepository;
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class DefaultCafeAdapter implements com.kft2.selsoftdemo.domain.cafe.repository.CafeAdapter {
+public class CafeAdapter implements CafePort {
 
     private final CafeJpaRepository cafeJpaRepository;
 

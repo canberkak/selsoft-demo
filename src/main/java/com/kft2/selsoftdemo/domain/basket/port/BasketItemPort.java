@@ -1,10 +1,10 @@
-package com.kft2.selsoftdemo.domain.basket.repository;
+package com.kft2.selsoftdemo.domain.basket.port;
 
 import com.kft2.selsoftdemo.domain.basket.model.BasketItem;
 
 import java.util.List;
 
-public interface BasketItemAdapter {
+public interface BasketItemPort {
 
     BasketItem findByBasketIdAndProductId(Long basketId, Long productId);
 
