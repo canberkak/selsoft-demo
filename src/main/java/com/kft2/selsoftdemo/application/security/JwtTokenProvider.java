@@ -43,11 +43,11 @@ public class JwtTokenProvider {
 
     public String createToken(String username, List<Role> roles) {
 
-        Claims claims = Jwts.claims().setSubject(username);
+        var claims = Jwts.claims().setSubject(username);
         claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).filter(Objects::nonNull).collect(Collectors.toList()));
 
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
+        var now = new Date();
+        var validity = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -58,7 +58,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));
+        var userDetails = myUserDetails.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

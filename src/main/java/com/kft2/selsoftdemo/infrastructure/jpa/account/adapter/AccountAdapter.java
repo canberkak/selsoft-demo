@@ -23,7 +23,7 @@ public class AccountAdapter implements AccountPort {
     @Override
     public void save(Account account) {
 
-        AccountEntity accountEntity = new AccountEntity();
+        var accountEntity = new AccountEntity();
         accountEntity.setEmail(account.getEmail());
         accountEntity.setPassword(account.getPassword());
         accountEntity.setName(account.getName());
@@ -33,6 +33,11 @@ public class AccountAdapter implements AccountPort {
         accountEntity.setRoles(account.getRoles());
         accountJpaRepository.save(accountEntity);
 
+    }
+
+    @Override
+    public Account findById(Long id) {
+        return accountJpaRepository.findById(id).map(AccountEntity::toModel).orElseThrow(RuntimeException::new);
     }
 
 }

@@ -3,8 +3,7 @@ package com.kft2.selsoftdemo.application;
 import com.kft2.selsoftdemo.application.mapper.BasketMapper;
 import com.kft2.selsoftdemo.application.request.AddItemToBasketRequest;
 import com.kft2.selsoftdemo.application.response.BasketResponse;
-import com.kft2.selsoftdemo.domain.basket.service.BasketCommandService;
-import com.kft2.selsoftdemo.domain.basket.service.BasketQueryService;
+import com.kft2.selsoftdemo.application.service.BasketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +18,12 @@ import javax.validation.Valid;
 @RequestMapping("/basket")
 public class BasketController {
 
-    private final BasketQueryService basketQueryService;
-    private final BasketCommandService basketCommandService;
+    private final BasketService basketService;
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<BasketResponse> getActiveBasket(HttpServletRequest httpServletRequest) {
-        var basketResponse = BasketMapper.basketToBasketResponse(basketQueryService.getBasketByToken(httpServletRequest));
+        var basketResponse = BasketMapper.basketToBasketResponse(basketService.getBasketByToken(httpServletRequest));
         return new ResponseEntity<>(basketResponse,HttpStatus.OK);
     }
 
@@ -33,7 +31,7 @@ public class BasketController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<?> addItemToBasket(HttpServletRequest httpServletRequest,
                                              @RequestBody @Valid AddItemToBasketRequest addItemToBasketRequest) {
-        basketCommandService.addItemToBasket(httpServletRequest, addItemToBasketRequest);
+        basketService.addItemToBasket(httpServletRequest, addItemToBasketRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -41,14 +39,14 @@ public class BasketController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<?> removeItemFromBasket(HttpServletRequest httpServletRequest,
                                                   @PathVariable("id") Long id) {
-        basketCommandService.removeItemFromBasket(httpServletRequest, id);
+        basketService.removeItemFromBasket(httpServletRequest, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/order")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<?> order(HttpServletRequest httpServletRequest) {
-        basketCommandService.orderBasket(httpServletRequest);
+        basketService.orderBasket(httpServletRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

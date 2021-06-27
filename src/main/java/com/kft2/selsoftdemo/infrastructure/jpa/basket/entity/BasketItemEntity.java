@@ -2,7 +2,6 @@ package com.kft2.selsoftdemo.infrastructure.jpa.basket.entity;
 
 import com.kft2.selsoftdemo.domain.basket.model.BasketItem;
 import com.kft2.selsoftdemo.infrastructure.jpa.base.BaseEntity;
-import com.kft2.selsoftdemo.infrastructure.jpa.cafe.entity.CafeEntity;
 import lombok.Getter;
 import lombok.Setter;
 

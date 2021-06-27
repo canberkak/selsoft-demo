@@ -8,5 +8,6 @@ public interface AccountPort {
 
     void save(Account account);
 
+    Account findById(Long id);
 
 }
