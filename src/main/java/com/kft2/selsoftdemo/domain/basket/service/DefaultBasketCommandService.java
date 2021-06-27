@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -27,8 +26,7 @@ public class DefaultBasketCommandService implements BasketCommandService {
 
     @Transactional
     @Override
-    public void addItemToBasket(HttpServletRequest httpServletRequest, AddItemToBasketRequest addItemToBasketRequest) {
-        var basket = basketQueryService.getBasketByToken(httpServletRequest);
+    public void addItemToBasket(Basket basket, AddItemToBasketRequest addItemToBasketRequest) {
         var product = productQueryService.findById(addItemToBasketRequest.getProductId());
         var basketItem = basketItemPort.findByBasketIdAndProductId(basket.getId(), product.getId());
 
@@ -39,8 +37,7 @@ public class DefaultBasketCommandService implements BasketCommandService {
     }
 
     @Override
-    public void removeItemFromBasket(HttpServletRequest httpServletRequest, Long id) {
-        var basket = basketQueryService.getBasketByToken(httpServletRequest);
+    public void removeItemFromBasket(Basket basket, Long id) {
         var basketItem = basketItemPort.findById(id);
 
         basketItemPort.remove(basketItem);
@@ -55,8 +52,8 @@ public class DefaultBasketCommandService implements BasketCommandService {
     }
 
     @Override
-    public void orderBasket(HttpServletRequest httpServletRequest) {
-        var account = accountQueryService.getIdentityFromToken(httpServletRequest);
+    public void orderBasket(Long accountId) {
+        var account = accountQueryService.findById(accountId);
         var basket = basketPort.findByAccountId(account.getId());
 
         selsoftPaymentService.order(account.getEmail(), basket.getTotalPrice());

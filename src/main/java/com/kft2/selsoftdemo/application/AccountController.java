@@ -4,8 +4,7 @@ import com.kft2.selsoftdemo.application.mapper.AccountMapper;
 import com.kft2.selsoftdemo.application.request.SignInRequest;
 import com.kft2.selsoftdemo.application.request.SignUpRequest;
 import com.kft2.selsoftdemo.application.response.AccountResponse;
-import com.kft2.selsoftdemo.domain.account.service.AccountCommandService;
-import com.kft2.selsoftdemo.domain.account.service.AccountQueryService;
+import com.kft2.selsoftdemo.application.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +19,17 @@ import javax.validation.Valid;
 @RequestMapping("/account")
 public class AccountController {
 
-    private final AccountCommandService accountCommandService;
-    private final AccountQueryService accountQueryService;
+    private final AccountService accountService;
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
-        accountCommandService.singUp(signUpRequest);
+        accountService.singUp(signUpRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/sign-in")
     public ResponseEntity<String> signIn(@RequestBody @Valid SignInRequest signInRequest) {
-        var token = accountCommandService.signIn(signInRequest);
+        var token = accountService.signIn(signInRequest);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
@@ -39,7 +37,7 @@ public class AccountController {
     @GetMapping(value = "/me")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<AccountResponse> getMe(HttpServletRequest httpServletRequest) {
-        var account = AccountMapper.accountToAccountResponse(accountQueryService.getIdentityFromToken(httpServletRequest));
+        var account = AccountMapper.accountToAccountResponse(accountService.getIdentityFromToken(httpServletRequest));
         return new ResponseEntity<>(account, HttpStatus.OK);
 
     }
