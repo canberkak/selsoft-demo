@@ -1,6 +1,6 @@
 ## Requirements
 
-- Java 11, Maven, Lombok, Docker
+- Java 11, Maven, Lombok
 
 ## How to use ?
 
